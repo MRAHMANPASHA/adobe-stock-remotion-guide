@@ -1,0 +1,1535 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Adobe Stock Remotion — Antigravity Workflow Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      :root{
+        --bg:#f5f6f8;
+        --surface:#ffffff;
+        --surface-2:#eef0f4;
+        --ink:#131922;
+        --muted:#57616f;
+        --line:#dde2ea;
+        --coral:#e8503a;
+        --coral-soft:#fdeeea;
+        --amber:#d98a16;
+        --amber-soft:#fdf3e0;
+        --teal:#0e8a7d;
+        --teal-soft:#e2f4f1;
+        --blue:#3d63c8;
+        --blue-soft:#e8edfb;
+        --rose:#c93a68;
+        --rose-soft:#fbe9ef;
+        --code-bg:#10151d;
+        --code-ink:#e8edf4;
+        --code-line:#26303e;
+        --shadow:0 1px 2px rgba(19,25,34,.05),0 8px 24px rgba(19,25,34,.06);
+        --radius:14px;
+      }
+      @media (prefers-color-scheme: dark){
+        :root{
+          --bg:#0d1117;
+          --surface:#151b24;
+          --surface-2:#1a212d;
+          --ink:#ecf1f7;
+          --muted:#9aa8b8;
+          --line:#27303d;
+          --coral:#ff7a63;
+          --coral-soft:#2b1a16;
+          --amber:#f0b04a;
+          --amber-soft:#2a2211;
+          --teal:#3ec9b8;
+          --teal-soft:#122824;
+          --blue:#7ea2f2;
+          --blue-soft:#182238;
+          --rose:#f07ba4;
+          --rose-soft:#2c1721;
+          --code-bg:#0a0e14;
+          --code-ink:#e8edf4;
+          --code-line:#232d3a;
+          --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+        }
+      }
+      *{box-sizing:border-box}
+      html{scroll-behavior:smooth}
+      body{
+        margin:0;
+        background:var(--bg);
+        color:var(--ink);
+        font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+        font-size:16px;
+        line-height:1.6;
+        -webkit-font-smoothing:antialiased;
+      }
+      h1,h2,h3{font-family:"Sora",sans-serif;line-height:1.2;margin:0}
+      a{color:var(--blue)}
+      .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+      code,.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+
+      /* ---------- Hero ---------- */
+      .hero{padding:44px 0 8px}
+      .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center}
+      .hero h1{font-size:clamp(28px,4.4vw,42px);font-weight:800;letter-spacing:-.5px}
+      .hero h1 .accent{color:var(--coral)}
+      .hero p.lede{color:var(--muted);font-size:17px;margin:14px 0 0;max-width:34em}
+      .byline{font-family:"Sora",sans-serif;font-weight:700;font-size:15px;color:var(--ink);margin:14px 0 0;letter-spacing:.01em}
+      .byline::before{content:"";display:block;width:36px;height:3px;border-radius:99px;background:var(--coral);margin-bottom:8px}
+      .hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+      .tag{font-size:12.5px;font-weight:600;padding:5px 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted)}
+      .tag b{color:var(--ink)}
+      .mesh-frame{
+        border-radius:18px;overflow:hidden;background:#0d0a14;position:relative;
+        aspect-ratio:16/9;box-shadow:var(--shadow);border:1px solid rgba(0,0,0,.25);
+      }
+      .mesh-frame .blob{position:absolute;border-radius:50%;filter:blur(46px);opacity:.85;will-change:transform}
+      .b1{width:62%;height:78%;left:-8%;top:-14%;background:radial-gradient(circle at 40% 40%,#ffb03a,#f97316 65%,transparent 78%);animation:drift1 11s ease-in-out infinite alternate}
+      .b2{width:58%;height:72%;right:-10%;top:6%;background:radial-gradient(circle at 55% 45%,#fb7185,#e11d63 62%,transparent 78%);animation:drift2 13s ease-in-out infinite alternate}
+      .b3{width:52%;height:66%;left:26%;bottom:-24%;background:radial-gradient(circle at 50% 50%,#a78bfa,#6d28d9 62%,transparent 78%);animation:drift3 15s ease-in-out infinite alternate}
+      .b4{width:40%;height:52%;left:8%;bottom:-8%;background:radial-gradient(circle at 50% 50%,#fda4af,#f43f5e 60%,transparent 76%);opacity:.6;animation:drift2 17s ease-in-out infinite alternate-reverse}
+      .mesh-frame .glow{position:absolute;inset:0;background:radial-gradient(ellipse 62% 52% at 62% 38%,rgba(255,190,120,.35),transparent 65%)}
+      .mesh-frame .grain{position:absolute;inset:0;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1px);background-size:5px 5px;mix-blend-mode:overlay}
+      .mesh-cap{position:absolute;left:12px;bottom:10px;font-family:"JetBrains Mono",monospace;font-size:11.5px;color:rgba(255,255,255,.92);background:rgba(8,6,14,.55);padding:4px 9px;border-radius:7px;backdrop-filter:blur(4px)}
+      .mesh-note{font-size:12.5px;color:var(--muted);margin-top:8px;text-align:right}
+      @keyframes drift1{from{transform:translate(0,0) scale(1)}to{transform:translate(9%,7%) scale(1.12)}}
+      @keyframes drift2{from{transform:translate(0,0) scale(1.05)}to{transform:translate(-8%,10%) scale(.94)}}
+      @keyframes drift3{from{transform:translate(0,0) scale(.95)}to{transform:translate(6%,-8%) scale(1.1)}}
+      @media (prefers-reduced-motion: reduce){
+        .mesh-frame .blob{animation:none}
+        html{scroll-behavior:auto}
+      }
+
+      /* ---------- Golden rule ---------- */
+      .rule{
+        margin:30px 0 6px;background:var(--amber-soft);border:1px solid var(--amber);
+        border-radius:var(--radius);padding:18px 20px;display:flex;gap:14px;align-items:flex-start;
+      }
+      .rule .rule-ic{flex:none;width:38px;height:38px;border-radius:10px;background:var(--amber);color:#fff;display:flex;align-items:center;justify-content:center}
+      .rule h2{font-size:18px;margin-bottom:4px}
+      .rule p{margin:0;color:var(--ink)}
+      .rule p span{color:var(--muted)}
+
+      /* ---------- Sections ---------- */
+      section.block{padding:34px 0 6px}
+      .sec-head{margin-bottom:16px}
+      .sec-head h2{font-size:clamp(21px,3vw,26px);font-weight:700;letter-spacing:-.3px}
+      .sec-head p{color:var(--muted);margin:6px 0 0;max-width:46em}
+
+      /* ---------- Timeline ---------- */
+      .timeline{list-style:none;margin:6px 0 0;padding:0;position:relative}
+      .timeline::before{content:"";position:absolute;left:21px;top:14px;bottom:14px;width:2px;background:var(--line)}
+      .timeline li{position:relative;padding:0 0 18px 62px}
+      .timeline li:last-child{padding-bottom:2px}
+      .t-num{
+        position:absolute;left:0;top:0;width:44px;height:44px;border-radius:50%;
+        background:var(--surface);border:2px solid var(--line);color:var(--ink);
+        display:flex;align-items:center;justify-content:center;font-family:"Sora",sans-serif;font-weight:700;font-size:16px;z-index:1;
+      }
+      .timeline li:nth-child(1) .t-num{border-color:var(--coral);color:var(--coral)}
+      .timeline li:nth-child(2) .t-num{border-color:var(--amber);color:var(--amber)}
+      .timeline li:nth-child(3) .t-num{border-color:var(--teal);color:var(--teal)}
+      .timeline li:nth-child(4) .t-num{border-color:var(--blue);color:var(--blue)}
+      .timeline li:nth-child(5) .t-num{border-color:var(--rose);color:var(--rose)}
+      .timeline li:nth-child(6) .t-num{border-color:var(--coral);color:var(--coral)}
+      .timeline li:nth-child(7) .t-num{border-color:var(--teal);color:var(--teal)}
+      .t-body{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:13px 16px;box-shadow:var(--shadow)}
+      .t-body h3{font-size:16.5px;font-weight:600;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+      .t-body h3 a{font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap}
+      .t-body h3 a:hover{text-decoration:underline}
+      .t-body p{margin:3px 0 0;color:var(--muted);font-size:14.5px}
+
+      /* ---------- Specs ---------- */
+      .spec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+      .spec{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
+      .spec .k{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+      .spec .v{font-family:"Sora",sans-serif;font-size:21px;font-weight:700;margin-top:3px}
+      .spec .s{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.45}
+      .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+      .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+      .panel h3{font-size:16px;font-weight:700;margin-bottom:4px}
+      .panel p.sub{color:var(--muted);font-size:13.5px;margin:0 0 12px}
+      .frame-row{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:13.5px}
+      .frame-row .fl{width:86px;flex:none;font-family:"JetBrains Mono",monospace;font-size:12.5px;color:var(--muted)}
+      .frame-bar{height:20px;border-radius:6px;background:linear-gradient(90deg,var(--coral),var(--amber));min-width:34px}
+      .frame-bar.b600{background:linear-gradient(90deg,var(--teal),var(--blue))}
+      .frame-bar.b720{background:linear-gradient(90deg,var(--rose),#8a5cf6)}
+      .frame-row .fv{font-family:"JetBrains Mono",monospace;font-size:12.5px;font-weight:600;white-space:nowrap}
+      .loop-svg{width:100%;height:auto;display:block}
+      .svg-label{font-family:"JetBrains Mono",monospace;font-size:11px;fill:var(--muted)}
+      .svg-label-strong{font-family:"JetBrains Mono",monospace;font-size:11.5px;font-weight:600;fill:var(--ink)}
+
+      /* ---------- Category chart ---------- */
+      .chart-wrap{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+      .donut-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);text-align:center}
+      .donut{width:100%;max-width:230px;height:auto}
+      .cat-list{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+      .cat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:15px 16px;box-shadow:var(--shadow)}
+      .cat .cat-top{display:flex;align-items:center;gap:9px}
+      .cat .dot{width:13px;height:13px;border-radius:4px;flex:none}
+      .cat h3{font-size:15.5px;font-weight:700}
+      .cat .count{margin-left:auto;font-family:"Sora",sans-serif;font-size:22px;font-weight:800}
+      .cat p{margin:7px 0 0;color:var(--muted);font-size:13.5px;line-height:1.5}
+      .cat .visual{margin-top:10px;border-radius:9px;overflow:hidden;background:#14101d;height:64px;position:relative}
+      .cat .visual svg{width:100%;height:100%;display:block}
+      .mini-blob{position:absolute;border-radius:50%;filter:blur(13px)}
+
+      /* ---------- Palettes ---------- */
+      .pal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+      .pal{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+      .pal .pname{font-size:13px;font-weight:700;margin-bottom:7px}
+      .pal .chips{display:flex;gap:4px}
+      .pal .chip{flex:1;height:20px;border-radius:5px}
+      .pal .hexes{font-family:"JetBrains Mono",monospace;font-size:9.5px;color:var(--muted);margin-top:5px;line-height:1.5;word-break:break-all}
+
+      /* ---------- Prompt cards ---------- */
+      .progress-shell{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 18px;box-shadow:var(--shadow);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+      .progress-shell .p-label{font-family:"Sora",sans-serif;font-weight:700;font-size:15px}
+      .progress-track{flex:1;min-width:160px;height:10px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+      .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:99px;transition:width .35s ease}
+      .progress-count{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--muted)}
+      .prompt-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);margin-top:22px;overflow:hidden;scroll-margin-top:18px}
+      .prompt-head{padding:20px 22px 4px;display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+      .step-badge{flex:none;width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-family:"Sora",sans-serif;font-weight:800;font-size:19px;color:#fff}
+      .s1{background:var(--coral)}.s2{background:var(--amber)}.s3{background:var(--teal)}.s4{background:var(--blue)}.s5{background:var(--rose)}.s6{background:#7a4fd0}.s7{background:#2f7d4f}
+      @media (prefers-color-scheme: dark){.s6{background:#8a5cf6}.s7{background:#3d9e68}}
+      .prompt-head .ph-text{flex:1;min-width:220px}
+      .prompt-head h3{font-size:20px;font-weight:700;letter-spacing:-.2px}
+      .prompt-head .ph-sub{color:var(--muted);font-size:14px;margin-top:2px}
+      .done-btn{
+        flex:none;border:1.5px solid var(--line);background:var(--surface);color:var(--muted);
+        font-family:"Public Sans",sans-serif;font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:99px;cursor:pointer;
+      }
+      .done-btn:hover{border-color:var(--teal);color:var(--teal)}
+      .done-btn.is-done{background:var(--teal);border-color:var(--teal);color:#fff}
+      .explain{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:14px 22px 4px}
+      .ex-box{border-radius:12px;padding:13px 15px;font-size:14px}
+      .ex-box h4{margin:0 0 5px;font-family:"Sora",sans-serif;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+      .ex-box p{margin:0;line-height:1.55}
+      .ex-box ul{margin:0;padding-left:17px;line-height:1.55}
+      .ex-box li{margin:2px 0}
+      .ex-when{background:var(--blue-soft)}
+      .ex-what{background:var(--teal-soft)}
+      .ex-check{background:var(--amber-soft)}
+      .ex-when h4{color:var(--blue)}.ex-what h4{color:var(--teal)}.ex-check h4{color:var(--amber)}
+      .skip-note{margin:12px 22px 0;background:var(--rose-soft);border-radius:12px;padding:12px 15px;font-size:14px}
+      .skip-note b{color:var(--rose)}
+      .prompt-block{margin:16px 22px 22px;background:var(--code-bg);border:1px solid var(--code-line);border-radius:13px;overflow:hidden}
+      .prompt-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--code-line);flex-wrap:wrap}
+      .prompt-bar .pb-title{font-family:"JetBrains Mono",monospace;font-size:12px;color:#93a3b8;letter-spacing:.03em}
+      .prompt-bar .pb-note{font-size:12px;color:#6d7d92}
+      .copy-btn{
+        margin-left:auto;display:inline-flex;align-items:center;gap:7px;cursor:pointer;
+        background:var(--coral);color:#fff;border:none;font-family:"Public Sans",sans-serif;
+        font-weight:700;font-size:13.5px;padding:8px 16px;border-radius:9px;
+      }
+      .copy-btn:hover{filter:brightness(1.08)}
+      .copy-btn.copied{background:var(--teal)}
+      .copy-btn svg{width:15px;height:15px;flex:none}
+      pre.prompt{
+        margin:0;padding:16px 18px;overflow-x:auto;max-height:430px;overflow-y:auto;
+        font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12.8px;line-height:1.62;
+        color:var(--code-ink);white-space:pre;
+      }
+
+      /* ---------- Doc section ---------- */
+      .lesson-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+      .lesson{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow)}
+      .lesson .lnum{font-family:"Sora",sans-serif;font-weight:800;font-size:13px;color:var(--coral);letter-spacing:.06em}
+      .lesson h3{font-size:16px;margin:4px 0 6px}
+      .lesson p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+      .lesson p b{color:var(--ink)}
+      .rules-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+      .rule-list{list-style:none;margin:10px 0 0;padding:0}
+      .rule-list li{padding:7px 0 7px 26px;position:relative;font-size:14.5px;border-bottom:1px dashed var(--line)}
+      .rule-list li:last-child{border-bottom:none}
+      .rule-list li::before{content:"";position:absolute;left:2px;top:13px;width:9px;height:9px;border-radius:3px;background:var(--teal)}
+      .rule-list.avoid li::before{background:var(--coral);border-radius:50%}
+      .tree{
+        background:var(--code-bg);color:var(--code-ink);border:1px solid var(--code-line);border-radius:13px;
+        padding:16px 18px;font-family:"JetBrains Mono",monospace;font-size:12.8px;line-height:1.7;overflow-x:auto;white-space:pre;margin:0;
+      }
+      .tree .c{color:#7d8ea3}
+      .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin-top:6px}
+      .flow-step{flex:1;min-width:140px;background:var(--surface-2);border-radius:11px;padding:11px 13px;font-size:13.5px}
+      .flow-step b{display:block;font-family:"Sora",sans-serif;font-size:12px;color:var(--blue);margin-bottom:3px;letter-spacing:.04em}
+      .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+      .chip-sm{font-size:12px;font-weight:600;background:var(--surface-2);border:1px solid var(--line);padding:3px 9px;border-radius:99px;color:var(--muted)}
+      .warn-card{margin-top:14px;background:var(--amber-soft);border:1px solid var(--amber);border-radius:var(--radius);padding:16px 18px}
+      .warn-card h3{font-size:15.5px;margin-bottom:5px}
+      .warn-card p{margin:0;font-size:14px;line-height:1.6}
+      .topics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+      .topic{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow)}
+      .topic .tn{font-family:"Sora",sans-serif;font-weight:800;color:var(--blue);font-size:13px}
+      .topic h3{font-size:15px;margin:3px 0 4px}
+      .topic p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.55}
+
+      /* ---------- Adobe note ---------- */
+      .adobe-note{background:var(--rose-soft);border:1.5px solid var(--rose);border-radius:18px;padding:22px 24px;margin-top:8px}
+      .adobe-note h2{font-size:21px;margin-bottom:8px}
+      .adobe-note p{margin:0 0 10px;font-size:15px;line-height:1.65;max-width:52em}
+      .adobe-note p:last-child{margin-bottom:0}
+      .adobe-note b{color:var(--rose)}
+
+      /* ---------- Start / reference cards ---------- */
+      .start-card{margin:22px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:20px 22px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+      .start-card.flush{margin:0 0 18px}
+      .start-ic{flex:none;width:52px;height:52px;border-radius:14px;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center}
+      .start-ic.blue{background:var(--blue);color:#fff}
+      .start-card .sc-text{flex:1;min-width:240px}
+      .start-card h2,.start-card h3{font-size:19px;margin-bottom:3px}
+      .start-card p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.6}
+      .start-card p b{color:var(--ink)}
+      .btn-link{flex:none;display:inline-flex;align-items:center;gap:8px;background:var(--coral);color:#fff;font-weight:700;font-size:14.5px;padding:11px 18px;border-radius:11px;text-decoration:none}
+      .btn-link:hover{filter:brightness(1.08)}
+      .btn-link svg{width:16px;height:16px;flex:none}
+      .btn-link.ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+      .btn-link.wa{background:#1eb356;color:#fff}
+
+      /* ---------- Join cards (WhatsApp) ---------- */
+      .join-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+      .join-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:flex-start}
+      .join-ic{flex:none;width:46px;height:46px;border-radius:12px;background:#22b358;color:#fff;display:flex;align-items:center;justify-content:center}
+      .join-ic svg{width:24px;height:24px}
+      .join-card .join-text{flex:1;min-width:190px}
+      .join-card h3{font-size:16.5px}
+      .join-card p{margin:4px 0 13px;color:var(--muted);font-size:14px;line-height:1.55}
+
+      /* ---------- FAQ ---------- */
+      .faq details{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-top:10px}
+      .faq summary{cursor:pointer;list-style:none;padding:15px 18px;font-family:"Sora",sans-serif;font-weight:700;font-size:15.5px;display:flex;gap:11px;align-items:center}
+      .faq summary::-webkit-details-marker{display:none}
+      .faq summary:hover{color:var(--coral)}
+      .faq .q-ic{flex:none;width:27px;height:27px;border-radius:8px;background:var(--rose-soft);color:var(--rose);display:flex;align-items:center;justify-content:center;font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:700}
+      .faq .chev{margin-left:auto;flex:none;color:var(--muted);transition:transform .2s ease}
+      .faq details[open ] .chev{transform:rotate(180deg)}
+      .faq .faq-body{padding:0 18px 17px 56px;color:var(--muted);font-size:14.5px;line-height:1.65}
+      .faq .faq-body p{margin:0}
+      .faq .faq-body b{color:var(--ink)}
+      .faq .step-ref{display:inline-block;margin-top:9px;font-size:12.5px;font-weight:700;background:var(--blue-soft);color:var(--blue);padding:3px 11px;border-radius:99px}
+
+      footer{padding:36px 0 46px;color:var(--muted);font-size:13.5px;text-align:center}
+      footer .f-line{border-top:1px solid var(--line);padding-top:18px}
+
+      /* ---------- Responsive ---------- */
+      @media (max-width:900px){
+        .hero-grid{grid-template-columns:1fr}
+        .mesh-note{text-align:left}
+        .spec-grid{grid-template-columns:repeat(2,1fr)}
+        .two-col{grid-template-columns:1fr}
+        .chart-wrap{grid-template-columns:1fr}
+        .donut-box{max-width:340px;margin:0 auto;width:100%}
+        .pal-grid{grid-template-columns:repeat(2,1fr)}
+        .explain{grid-template-columns:1fr}
+        .lesson-grid{grid-template-columns:1fr}
+        .rules-grid{grid-template-columns:1fr}
+        .topics-grid{grid-template-columns:1fr 1fr}
+        .join-grid{grid-template-columns:1fr}
+      }
+      @media (max-width:560px){
+        .cat-list{grid-template-columns:1fr}
+        .topics-grid{grid-template-columns:1fr}
+        .prompt-head,.explain{padding-left:16px;padding-right:16px}
+        .prompt-block{margin-left:16px;margin-right:16px}
+        .skip-note{margin-left:16px;margin-right:16px}
+        pre.prompt{font-size:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+        .timeline li{padding-left:56px}
+        .start-card{padding:16px 18px}
+        .btn-link{width:100%;justify-content:center}
+        .faq .faq-body{padding-left:18px}
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="wrap">
+
+      <!-- ================= HERO ================= -->
+      <header class="hero">
+        <div class="hero-grid">
+          <div>
+            <h1>Adobe Stock ke liye 4K Motion Backgrounds — <span class="accent">Antigravity se, sirf 7 prompts mein</span></h1>
+            <p class="lede">Repository <b>Adobe-Stock-X-Remotion</b> ko Antigravity IDE mein kholo, aur neeche diye gaye 7 prompts ek ek karke sahi order mein paste karte jao — setup se lekar 100 videos ki batch rendering aur final Adobe Stock report tak sab kuch inhi 7 steps mein ho jayega. Har prompt bilkul original hai, uske saath aasan zuban mein bataya gaya hai ke woh kab dena hai, kya karega, aur iske baad kya check karna hai. Yahan aapko step by step bilkul waisa hi bataya jayega jaisa aapne khud karna hai: ab aapne esa karna hai, phir esa karna hai.</p>
+            <p class="byline">By Rahman Pasha</p>
+            <div class="hero-tags">
+              <span class="tag">Repository: <b>alimrnobody/Adobe-Stock-X-Remotion</b></span>
+              <span class="tag">Tool: <b>Google Antigravity IDE</b></span>
+              <span class="tag">Output: <b>100 videos tak</b></span>
+              <span class="tag">AI: <b>Local LLM — koi paid API nahi</b></span>
+            </div>
+          </div>
+          <div>
+            <div class="mesh-frame" role="img" aria-label="Sunset mesh gradient animation ki misaal — amber, coral, rose aur violet rangon ke naram blurred blobs jo ahista ahista move ho rahe hain">
+              <div class="blob b1"></div>
+              <div class="blob b2"></div>
+              <div class="blob b3"></div>
+              <div class="blob b4"></div>
+              <div class="glow"></div>
+              <div class="grain"></div>
+              <div class="mesh-cap">Illustration · Target: 3840×2160 · 60fps</div>
+            </div>
+            <p class="mesh-note">Ye sirf ek tasveeri misaal (illustration) hai ke sample video kaisi lagegi — asal <span class="mono">00_Setup_Test.mp4</span> Prompt 1 run karne ke baad hi banegi aur verify hogi.</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- ================= START: REPOSITORY ================= -->
+      <div class="start-card">
+        <div class="start-ic" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 1.695.765.99 1.285 1.09 0 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </div>
+        <div class="sc-text">
+          <h2>Shuru karne se pehle — repository download karein</h2>
+          <p>Prompt 1 dene se pehle aapko ye project apne PC par chahiye. Repository <b>alimrnobody/Adobe-Stock-X-Remotion</b> GitHub se download karein, uska folder Antigravity IDE mein khol lein — phir isi folder ke andar aap saare 7 prompts ek ek karke paste karenge.</p>
+        </div>
+        <a class="btn-link" href="https://github.com/alimrnobody/Adobe-Stock-X-Remotion" target="_blank" rel="noopener">Repository download karein / Antigravity mein kholein
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+        </a>
+      </div>
+
+      <!-- ================= GOLDEN RULE ================= -->
+      <div class="rule">
+        <div class="rule-ic" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+        </div>
+        <div>
+          <h2>Ek golden rule — hamesha yaad rakhein</h2>
+          <p><b>Agla prompt tabhi dein jab pichhle step ka result khud check kar liya ho.</b> <span>Agar kisi stage par error aaye, to agla prompt dene ke bajaye pehle wahi error fix karwayein. Is tarah agar kahin ghalti ho bhi jaye, to poora setup dobara nahi karna padega — aap ek working sample se shuru karke controlled batch production tak pohanch jayenge.</span></p>
+        </div>
+      </div>
+
+      <!-- ================= WORKFLOW TIMELINE ================= -->
+      <section class="block" id="workflow">
+        <div class="sec-head">
+          <h2>Poora workflow — 7 steps, ek nazar mein</h2>
+          <p>Order hamesha yahi rahega: <b>Prompt 1 → 2 → 3 → 4 → 5 → 6 → 7</b>. Kisi step par click karein, seedha us prompt par pohanch jayenge.</p>
+        </div>
+        <ol class="timeline">
+          <li>
+            <div class="t-num">1</div>
+            <div class="t-body">
+              <h3>Automatic Installation <a href="#prompt-1">Prompt 1 par jayein ↓</a></h3>
+              <p>Software, dependencies install — aur pehli 4K sample video.</p>
+            </div>
+          </li>
+          <li>
+            <div class="t-num">2</div>
+            <div class="t-body">
+              <h3>Permanent Instructions <a href="#prompt-2">Prompt 2 par jayein ↓</a></h3>
+              <p>Production Agent aur Prompt Writer ki permanent files ban jayengi.</p>
+            </div>
+          </li>
+          <li>
+            <div class="t-num">3</div>
+            <div class="t-body">
+              <h3>Generate 100 Prompts <a href="#prompt-3">Prompt 3 par jayein ↓</a></h3>
+              <p>100 unique video prompts — alag palettes, moods aur motion ideas.</p>
+            </div>
+          </li>
+          <li>
+            <div class="t-num">4</div>
+            <div class="t-body">
+              <h3>Validate Prompts <a href="#prompt-4">Prompt 4 par jayein ↓</a></h3>
+              <p>Count, frame rate, seeds aur duplicate ki mukammal checking.</p>
+            </div>
+          </li>
+          <li>
+            <div class="t-num">5</div>
+            <div class="t-body">
+              <h3>Test 3 Videos <a href="#prompt-5">Prompt 5 par jayein ↓</a></h3>
+              <p>Pehle sirf 3 videos — quality aur rendering verify karein.</p>
+            </div>
+          </li>
+          <li>
+            <div class="t-num">6</div>
+            <div class="t-body">
+              <h3>Batch Rendering <a href="#prompt-6">Prompt 6 par jayein ↓</a></h3>
+              <p>Baqi saari prompts ki videos ek ke baad ek banti jayengi.</p>
+            </div>
+          </li>
+          <li>
+            <div class="t-num">7</div>
+            <div class="t-body">
+              <h3>Final QA &amp; Metadata <a href="#prompt-7">Prompt 7 par jayein ↓</a></h3>
+              <p>Technical report, har video ka title, keywords aur stock checks.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ================= TECH SPECS ================= -->
+      <section class="block" id="specs">
+        <div class="sec-head">
+          <h2>Har video ki technical pehchan</h2>
+          <p>Chahe prompt koi sa bhi ho, har video inhi specs par banti hai. Yehi woh cheezein hain jo Adobe Stock check karta hai — aur yehi Prompt 7 mein verify hongi.</p>
+        </div>
+        <div class="spec-grid">
+          <div class="spec"><div class="k">Resolution</div><div class="v">3840 × 2160</div><div class="s">Full 4K UHD frame</div></div>
+          <div class="spec"><div class="k">Frame Rate</div><div class="v">60 fps</div><div class="s">Smooth motion, kabhi 30fps nahi</div></div>
+          <div class="spec"><div class="k">Codec</div><div class="v">H.264</div><div class="s">MP4 file, koi audio stream nahi</div></div>
+          <div class="spec"><div class="k">Bitrate</div><div class="v">40M target</div><div class="s">CRF kabhi nahi — neeche lesson dekhein</div></div>
+          <div class="spec"><div class="k">Pixel Format</div><div class="v">yuv420p</div><div class="s">Har player mein compatible</div></div>
+          <div class="spec"><div class="k">Color Space</div><div class="v">bt709</div><div class="s">HD standard color metadata</div></div>
+          <div class="spec"><div class="k">Render Flag</div><div class="v">--gl=angle</div><div class="s">Iske baghair heavy blur black render hota hai</div></div>
+          <div class="spec"><div class="k">Loop</div><div class="v">Seamless</div><div class="s">Aakhri frame = pehla frame, koi jump nahi</div></div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <h3>Duration → Frames ka hisaab</h3>
+            <p class="sub">Formula simple hai: <b>frames = seconds × 60</b>. Sirf ye teen durations use hoti hain. 300 frames (5 second) se kam wali video Adobe reject kar deta hai — 240 frames wali 4-second video to pakki reject hai.</p>
+            <div class="frame-row"><span class="fl">8 seconds</span><div class="frame-bar" style="width:66.7%"></div><span class="fv">480 frames</span></div>
+            <div class="frame-row"><span class="fl">10 seconds</span><div class="frame-bar b600" style="width:83.3%"></div><span class="fv">600 frames</span></div>
+            <div class="frame-row"><span class="fl">12 seconds</span><div class="frame-bar b720" style="width:100%"></div><span class="fv">720 frames</span></div>
+          </div>
+          <div class="panel">
+            <h3>Seamless loop matlab kya?</h3>
+            <p class="sub">Saari motion <b>sin/cos</b> se chalti hai, is liye jahan se video shuru hoti hai, wahin par khatam hoti hai — loop mein koi jhatka (jump) nahi aata.</p>
+            <svg class="loop-svg" viewBox="0 0 640 190" role="img" aria-label="Sin wave diagram: frame 0 aur frame 600 ek hi position par hain, is liye loop seamless hai">
+              <line x1="20" y1="18" x2="20" y2="150" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 4"/>
+              <line x1="620" y1="18" x2="620" y2="150" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 4"/>
+              <path d="M 20 92 Q 95 14, 170 92 T 320 92 T 470 92 T 620 92" fill="none" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="20" cy="92" r="6" fill="var(--coral)"/>
+              <circle cx="620" cy="92" r="6" fill="var(--teal)"/>
+              <text x="20" y="168" text-anchor="middle" class="svg-label-strong">Frame 0</text>
+              <text x="620" y="168" text-anchor="middle" class="svg-label-strong">Frame 600</text>
+              <text x="320" y="36" text-anchor="middle" class="svg-label">motion = sin / cos (periodic)</text>
+              <text x="320" y="168" text-anchor="middle" class="svg-label">dono frames bilkul ek jaise → loop mein jump nahi</text>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= CATEGORY CHART ================= -->
+      <section class="block" id="categories">
+        <div class="sec-head">
+          <h2>100 prompts ki taqseem — Category Distribution</h2>
+          <p>Prompt 3 jab 100 prompts banayega, to unki taqseem bilkul aisi hogi. Mesh Gradient sab se zyada is liye hai ke Adobe Stock par yahi sab se zyada bikti hai.</p>
+        </div>
+        <div class="chart-wrap">
+          <div class="donut-box">
+            <svg class="donut" viewBox="0 0 200 200" role="img" aria-label="Donut chart: 35 Mesh Gradient Loops, 25 Plexus, 25 Floating Particles and Bokeh, 15 Abstract aur doosri categories">
+              <circle cx="100" cy="100" r="80" fill="none" stroke="var(--surface-2)" stroke-width="30"/>
+              <circle cx="100" cy="100" r="80" fill="none" stroke="#e8503a" stroke-width="30" stroke-dasharray="175.93 502.65" transform="rotate(-90 100 100)"/>
+              <circle cx="100" cy="100" r="80" fill="none" stroke="#0e8a7d" stroke-width="30" stroke-dasharray="125.66 502.65" stroke-dashoffset="-175.93" transform="rotate(-90 100 100)"/>
+              <circle cx="100" cy="100" r="80" fill="none" stroke="#d98a16" stroke-width="30" stroke-dasharray="125.66 502.65" stroke-dashoffset="-301.59" transform="rotate(-90 100 100)"/>
+              <circle cx="100" cy="100" r="80" fill="none" stroke="#3d63c8" stroke-width="30" stroke-dasharray="75.40 502.65" stroke-dashoffset="-427.25" transform="rotate(-90 100 100)"/>
+              <text x="100" y="96" text-anchor="middle" font-family="Sora, sans-serif" font-weight="800" font-size="34" fill="var(--ink)">100</text>
+              <text x="100" y="118" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="var(--muted)">prompts</text>
+            </svg>
+            <p style="margin:8px 0 0;color:var(--muted);font-size:13px">Har hissa = ek category ke prompts ki tadaad</p>
+          </div>
+          <div class="cat-list">
+            <div class="cat">
+              <div class="cat-top"><span class="dot" style="background:#e8503a"></span><h3>Mesh Gradient Loops</h3><span class="count" style="color:#e8503a">35</span></div>
+              <p>4–6 bare naram blurred rangon ke blobs jo ahista sin/cos par drift hote hain. Sab se zyada bikni wali category — is liye sab se zyada prompts isi ke.</p>
+              <div class="visual" aria-hidden="true">
+                <div class="mini-blob" style="width:90px;height:60px;left:6%;top:-10px;background:#f97316"></div>
+                <div class="mini-blob" style="width:90px;height:60px;right:8%;top:8px;background:#e11d63"></div>
+                <div class="mini-blob" style="width:80px;height:55px;left:38%;bottom:-16px;background:#7c3aed"></div>
+              </div>
+            </div>
+            <div class="cat">
+              <div class="cat-top"><span class="dot" style="background:#0e8a7d"></span><h3>Plexus / Connected Dots</h3><span class="count" style="color:#0e8a7d">25</span></div>
+              <p>80–120 chhote dots jo aapas mein lines se judte hain — jo dot qareeb aaye, line utni wazeh. Corporate aur tech videos ki pasandeeda look.</p>
+              <div class="visual" aria-hidden="true">
+                <svg viewBox="0 0 300 64" preserveAspectRatio="none">
+                  <g stroke="#2dd4bf" stroke-width="1" opacity="0.55">
+                    <line x1="30" y1="40" x2="80" y2="18"/><line x1="80" y1="18" x2="130" y2="44"/>
+                    <line x1="130" y1="44" x2="185" y2="14"/><line x1="185" y1="14" x2="240" y2="38"/>
+                    <line x1="240" y1="38" x2="282" y2="20"/><line x1="80" y1="18" x2="185" y2="14"/>
+                    <line x1="30" y1="40" x2="130" y2="44"/><line x1="130" y1="44" x2="240" y2="38"/>
+                  </g>
+                  <g fill="#5eead4">
+                    <circle cx="30" cy="40" r="3"/><circle cx="80" cy="18" r="3.5"/><circle cx="130" cy="44" r="3"/>
+                    <circle cx="185" cy="14" r="3.5"/><circle cx="240" cy="38" r="3"/><circle cx="282" cy="20" r="3"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+            <div class="cat">
+              <div class="cat-top"><span class="dot" style="background:#d98a16"></span><h3>Floating Particles &amp; Bokeh</h3><span class="count" style="color:#d98a16">25</span></div>
+              <p>50–100 naram roshni ke zarre jo hawa mein teirte hain. Sub-styles: Bokeh, Dust, Fireflies, Snow, Sparkle, Orbs, Embers, Starfield, Pollen, Bubbles, Glitter, Mist.</p>
+              <div class="visual" aria-hidden="true">
+                <svg viewBox="0 0 300 64" preserveAspectRatio="none">
+                  <g fill="#fbbf24">
+                    <circle cx="28" cy="22" r="5" opacity=".35"/><circle cx="66" cy="44" r="3" opacity=".8"/>
+                    <circle cx="104" cy="16" r="6" opacity=".25"/><circle cx="140" cy="38" r="2.5" opacity=".9"/>
+                    <circle cx="176" cy="24" r="4" opacity=".5"/><circle cx="212" cy="48" r="6" opacity=".3"/>
+                    <circle cx="248" cy="18" r="3" opacity=".85"/><circle cx="282" cy="40" r="4.5" opacity=".45"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+            <div class="cat">
+              <div class="cat-top"><span class="dot" style="background:#3d63c8"></span><h3>Abstract / Geometric / Wave / Aurora / Tech</h3><span class="count" style="color:#3d63c8">15</span></div>
+              <p>Geometric patterns, sine waves, aurora lights, digital tech backgrounds — variety ke liye, taake saari videos ek jaisi na lagein.</p>
+              <div class="visual" aria-hidden="true">
+                <svg viewBox="0 0 300 64" preserveAspectRatio="none">
+                  <path d="M0 40 Q 37 8, 75 40 T 150 40 T 225 40 T 300 40" fill="none" stroke="#60a5fa" stroke-width="2.5"/>
+                  <path d="M0 48 Q 37 20, 75 48 T 150 48 T 225 48 T 300 48" fill="none" stroke="#a78bfa" stroke-width="2" opacity=".7"/>
+                  <path d="M0 56 Q 37 34, 75 56 T 150 56 T 225 56 T 300 56" fill="none" stroke="#34d399" stroke-width="2" opacity=".5"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= PALETTES ================= -->
+      <section class="block" id="palettes">
+        <div class="sec-head">
+          <h2>Palette gallery — har prompt ka apna rang</h2>
+          <p>Prompt 3 in palette families mein se har prompt ke liye alag combination chunta hai — ek batch mein koi palette repeat nahi hoti. Neeche har family ke numayanda rang (hex codes ke saath) diye hain, taake andaza ho ke videos kitni mukhtalif lageingi.</p>
+        </div>
+        <div class="pal-grid">
+          <div class="pal"><div class="pname">Sunset</div><div class="chips"><span class="chip" style="background:#FF9A3D"></span><span class="chip" style="background:#FF5E62"></span><span class="chip" style="background:#C94F7C"></span><span class="chip" style="background:#5B2A86"></span></div><div class="hexes">#FF9A3D · #FF5E62 · #C94F7C · #5B2A86</div></div>
+          <div class="pal"><div class="pname">Ocean</div><div class="chips"><span class="chip" style="background:#38BDF8"></span><span class="chip" style="background:#0EA5A4"></span><span class="chip" style="background:#2563EB"></span><span class="chip" style="background:#0B2545"></span></div><div class="hexes">#38BDF8 · #0EA5A4 · #2563EB · #0B2545</div></div>
+          <div class="pal"><div class="pname">Corporate Blue</div><div class="chips"><span class="chip" style="background:#60A5FA"></span><span class="chip" style="background:#3B82F6"></span><span class="chip" style="background:#1D4ED8"></span><span class="chip" style="background:#0F1E3D"></span></div><div class="hexes">#60A5FA · #3B82F6 · #1D4ED8 · #0F1E3D</div></div>
+          <div class="pal"><div class="pname">Teal–Orange</div><div class="chips"><span class="chip" style="background:#2DD4BF"></span><span class="chip" style="background:#0D9488"></span><span class="chip" style="background:#FB923C"></span><span class="chip" style="background:#132A2E"></span></div><div class="hexes">#2DD4BF · #0D9488 · #FB923C · #132A2E</div></div>
+          <div class="pal"><div class="pname">Pastel</div><div class="chips"><span class="chip" style="background:#FBCFE8"></span><span class="chip" style="background:#BFDBFE"></span><span class="chip" style="background:#BBF7D0"></span><span class="chip" style="background:#3B3550"></span></div><div class="hexes">#FBCFE8 · #BFDBFE · #BBF7D0 · #3B3550</div></div>
+          <div class="pal"><div class="pname">Gold</div><div class="chips"><span class="chip" style="background:#FDE68A"></span><span class="chip" style="background:#F59E0B"></span><span class="chip" style="background:#B45309"></span><span class="chip" style="background:#241A08"></span></div><div class="hexes">#FDE68A · #F59E0B · #B45309 · #241A08</div></div>
+          <div class="pal"><div class="pname">Aurora</div><div class="chips"><span class="chip" style="background:#4ADE80"></span><span class="chip" style="background:#2DD4BF"></span><span class="chip" style="background:#818CF8"></span><span class="chip" style="background:#0A1A2F"></span></div><div class="hexes">#4ADE80 · #2DD4BF · #818CF8 · #0A1A2F</div></div>
+          <div class="pal"><div class="pname">Emerald</div><div class="chips"><span class="chip" style="background:#6EE7B7"></span><span class="chip" style="background:#10B981"></span><span class="chip" style="background:#065F46"></span><span class="chip" style="background:#0A241C"></span></div><div class="hexes">#6EE7B7 · #10B981 · #065F46 · #0A241C</div></div>
+          <div class="pal"><div class="pname">Rose Gold</div><div class="chips"><span class="chip" style="background:#F9A8A8"></span><span class="chip" style="background:#E8B4B8"></span><span class="chip" style="background:#D4A373"></span><span class="chip" style="background:#33222A"></span></div><div class="hexes">#F9A8A8 · #E8B4B8 · #D4A373 · #33222A</div></div>
+          <div class="pal"><div class="pname">Cyberpunk</div><div class="chips"><span class="chip" style="background:#22D3EE"></span><span class="chip" style="background:#E879F9"></span><span class="chip" style="background:#FACC15"></span><span class="chip" style="background:#160B2E"></span></div><div class="hexes">#22D3EE · #E879F9 · #FACC15 · #160B2E</div></div>
+          <div class="pal"><div class="pname">Ice Blue</div><div class="chips"><span class="chip" style="background:#E0F2FE"></span><span class="chip" style="background:#7DD3FC"></span><span class="chip" style="background:#38BDF8"></span><span class="chip" style="background:#10222E"></span></div><div class="hexes">#E0F2FE · #7DD3FC · #38BDF8 · #10222E</div></div>
+          <div class="pal"><div class="pname">Violet</div><div class="chips"><span class="chip" style="background:#C4B5FD"></span><span class="chip" style="background:#8B5CF6"></span><span class="chip" style="background:#6D28D9"></span><span class="chip" style="background:#1D1038"></span></div><div class="hexes">#C4B5FD · #8B5CF6 · #6D28D9 · #1D1038</div></div>
+          <div class="pal"><div class="pname">Amber</div><div class="chips"><span class="chip" style="background:#FCD34D"></span><span class="chip" style="background:#F59E0B"></span><span class="chip" style="background:#EA580C"></span><span class="chip" style="background:#26160A"></span></div><div class="hexes">#FCD34D · #F59E0B · #EA580C · #26160A</div></div>
+          <div class="pal"><div class="pname">Neon</div><div class="chips"><span class="chip" style="background:#4ADE80"></span><span class="chip" style="background:#22D3EE"></span><span class="chip" style="background:#F472B6"></span><span class="chip" style="background:#0B1026"></span></div><div class="hexes">#4ADE80 · #22D3EE · #F472B6 · #0B1026</div></div>
+          <div class="pal"><div class="pname">Deep Space</div><div class="chips"><span class="chip" style="background:#93C5FD"></span><span class="chip" style="background:#6366F1"></span><span class="chip" style="background:#312E81"></span><span class="chip" style="background:#050914"></span></div><div class="hexes">#93C5FD · #6366F1 · #312E81 · #050914</div></div>
+          <div class="pal"><div class="pname">Monochrome</div><div class="chips"><span class="chip" style="background:#F8FAFC"></span><span class="chip" style="background:#94A3B8"></span><span class="chip" style="background:#475569"></span><span class="chip" style="background:#14181F"></span></div><div class="hexes">#F8FAFC · #94A3B8 · #475569 · #14181F</div></div>
+        </div>
+      </section>
+
+      <!-- ================= PROMPTS ================= -->
+      <section class="block" id="prompts">
+        <div class="sec-head">
+          <h2>7 Prompts — ek ek karke, isi order mein</h2>
+          <p>Har card mein pehle aasan bayan hai: <b>kab dein</b>, <b>ye kya karega</b>, aur <b>iske baad kya check karein</b>. Phir neeche black box mein asal prompt hai — <b>Copy</b> button dabayein, Antigravity mein paste kar dein. Prompt ka text bilkul original hai, usme koi tabdeeli nahi ki gayi. Kaam ho jaye to "Ho gaya" mark kar dein, progress khud update ho jayegi.</p>
+        </div>
+        <div class="progress-shell">
+          <span class="p-label">Aapki progress</span>
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+          <span class="progress-count" id="progressCount">0 / 7 steps</span>
+        </div>
+
+        <!-- ========== PROMPT 1 ========== -->
+        <article class="prompt-card" id="prompt-1">
+          <div class="prompt-head">
+            <div class="step-badge s1">1</div>
+            <div class="ph-text">
+              <h3>Prompt 1 — Automatic Installation &amp; Sample Video</h3>
+              <div class="ph-sub">Software, dependencies — aur pehli verified 4K sample video</div>
+            </div>
+            <button class="done-btn" type="button" data-done>Step complete mark karein</button>
+          </div>
+          <div class="explain">
+            <div class="ex-box ex-when">
+              <h4>Kab dein</h4>
+              <p>Sab se pehle. Aap repository download karke uska folder Antigravity mein open kar lein — bas tab ye prompt dein.</p>
+            </div>
+            <div class="ex-box ex-what">
+              <h4>Ye kya karega</h4>
+              <p>Poora PC audit karega (Python, Node.js, FFmpeg, RAM, GPU waghera), jo software missing hoga woh official sources se install karega, project ki dependencies setup karega, local AI check karega, Remotion ko 4K / 60fps par configure karega — aur aakhir mein ek sunset mesh-gradient sample video render karke uski asli properties verify karega.</p>
+            </div>
+            <div class="ex-box ex-check">
+              <h4>Iske baad check karein</h4>
+              <p><span class="mono">Output Folder/00_Setup_Test.mp4</span> play karke dekhein — rang nazar aayein, video black ya frozen na ho. Agent ki report mein software versions aur verified video properties confirm karein. <b>Ye pass ho, tabhi Prompt 2 dein.</b></p>
+            </div>
+          </div>
+          <div class="skip-note"><b>Ek note:</b> Agar aapke PC par setup pehle hi complete ho chuka hai aur 4K sample video successfully verify ho gayi hai, to aapko is prompt ko dobara run karne ki zaroorat nahi — aap seedha Prompt 2 par chale jayein.</div>
+          <div class="prompt-block">
+            <div class="prompt-bar">
+              <span class="pb-title">PROMPT 1 — ANTIGRAVITY MEIN PASTE KAREIN</span>
+              <span class="pb-note">Poora prompt, bilkul original</span>
+              <button class="copy-btn" type="button" data-copy="promptText1">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy Prompt</span>
+              </button>
+            </div>
+            <pre class="prompt" id="promptText1">You are my autonomous Windows setup engineer for
+Adobe-Stock-X-Remotion.
+
+Repository:
+https://github.com/alimrnobody/Adobe-Stock-X-Remotion
+
+GOAL:
+Set up this project on my Windows PC, install required dependencies,
+verify the local AI workflow, and render one verified sample MP4.
+
+1. AUDIT FIRST
+Inspect the repository and determine its actual root folder.
+Check Python, pip, Node.js, npm, Git, FFmpeg, RAM, GPU, VRAM,
+available disk space, package.json, package-lock.json, requirements.txt,
+remotion.config.ts, src/Root.tsx, src/index.ts, generate_videos.py,
+and Prompts/Prompts.txt.
+
+2. AUTOMATIC INSTALLATION
+Download missing required software from official sources.
+Install npm packages using npm ci when package-lock.json exists.
+Install Python dependencies in a project virtual environment where practical.
+Ensure a compatible Remotion browser is installed.
+Verify dependencies and resolve actual errors.
+Request approval if Windows administrator access is required.
+
+Do not overwrite existing user data.
+Back up files before modifications.
+Do not push or commit code to GitHub.
+
+3. LOCAL AI
+Inspect the existing local LLM bridge and verify the configured endpoint
+and model. Prefer a local model and do not call paid APIs.
+Do not automatically download a multi-GB model without my approval.
+If no local model is available, report what is missing and use a clearly
+labelled procedural-animation test if needed. Never claim that a
+procedural template was generated by an LLM.
+
+4. REMOTION CONFIGURATION
+Configure compatible settings for:
+3840x2160, 60fps, 600 frames, H.264, 40M target bitrate,
+yuv420p, bt709, muted rendering, and Chromium OpenGL angle.
+Use concurrency 8 or a lower value if memory is insufficient.
+Do not combine CRF with bitrate encoding.
+
+Inspect the existing generator carefully.
+Correct any defaults that incorrectly use 30fps for a 600-frame video.
+The intended duration is 10 seconds at 60fps.
+
+5. SAMPLE VIDEO
+Create a premium sunset mesh-gradient animation with amber, coral,
+rose pink, and violet colors, large soft blurred blobs, a visible
+radial glow, slow deterministic motion, and no text or logos.
+
+Use periodic motion and deterministic calculations.
+Do not use Math.random().
+Avoid a pure-black or empty-looking background.
+
+Save the sample as:
+Output Folder/00_Setup_Test.mp4
+
+6. VALIDATION
+Validate TSX syntax and the registered composition.
+Render and inspect a still preview before rendering the final MP4.
+Verify the output exists, is playable, and has the correct resolution,
+frame rate, duration, codec, pixel format, color metadata, and no audio.
+
+Do not fake the bitrate or claim successful validation without evidence.
+If the sample fails, diagnose the cause and fix it before proceeding.
+
+7. STOP
+Do not generate 100 prompts or start batch rendering yet.
+Report software versions, installed dependencies, local AI status,
+sample output path, verified video properties, and remaining errors.
+Do not push or commit code to GitHub.</pre>
+          </div>
+        </article>
+
+        <!-- ========== PROMPT 2 ========== -->
+        <article class="prompt-card" id="prompt-2">
+          <div class="prompt-head">
+            <div class="step-badge s2">2</div>
+            <div class="ph-text">
+              <h3>Prompt 2 — Permanent Instructions</h3>
+              <div class="ph-sub">Production Agent aur Prompt Writer ki permanent files</div>
+            </div>
+            <button class="done-btn" type="button" data-done>Step complete mark karein</button>
+          </div>
+          <div class="explain">
+            <div class="ex-box ex-when">
+              <h4>Kab dein</h4>
+              <p>Jab Prompt 1 ka setup aur sample video dono successful ho jayein.</p>
+            </div>
+            <div class="ex-box ex-what">
+              <h4>Ye kya karega</h4>
+              <p>Aapke saare production rules ko project ki 3 permanent files mein organize kar dega: <span class="mono">docs/PRODUCTION_AGENT.md</span>, <span class="mono">docs/PROMPT_WRITER.md</span> aur <span class="mono">docs/ADOBE_STOCK_QA.md</span>. Iske baad har baar saari instructions manually paste nahi karni padengi — aane wale prompts bas in files ka hawala denge. Saath mein parser bhi check hoga taake <b>ek prompt = ek hi video job</b> bane.</p>
+            </div>
+            <div class="ex-box ex-check">
+              <h4>Iske baad check karein</h4>
+              <p>Confirm karein ke ye teeno files ban gayi hain, aur generator ki asal settings 60fps ke mutabiq hain. Agent ki report mein changes aur limitations parh lein.</p>
+            </div>
+          </div>
+          <div class="prompt-block">
+            <div class="prompt-bar">
+              <span class="pb-title">PROMPT 2 — ANTIGRAVITY MEIN PASTE KAREIN</span>
+              <span class="pb-note">Poora prompt, bilkul original</span>
+              <button class="copy-btn" type="button" data-copy="promptText2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy Prompt</span>
+              </button>
+            </div>
+            <pre class="prompt" id="promptText2">Read the existing project and the requirements in this message.
+Create permanent, project-local documentation for my Adobe Stock
+Remotion motion-background production workflow.
+
+Create or update these files without deleting existing user content:
+
+docs/PRODUCTION_AGENT.md
+docs/PROMPT_WRITER.md
+docs/ADOBE_STOCK_QA.md
+
+Back up any file before modifying it.
+Preserve existing working components and scripts.
+
+PRODUCTION AGENT RULES
+- Default output: 3840x2160, 60fps, 10 seconds, 600 frames.
+- Valid duration options: 5–60 seconds, preferably 8, 10, or 12 seconds.
+- H.264, target bitrate 40M, yuv420p, bt709, no audio.
+- Use --gl=angle where supported.
+- Do not use CRF with target bitrate encoding.
+- No logos, brands, watermarks, or copyright-infringing content.
+- No pure-black or empty-looking frames.
+- Use lifted dark backgrounds with a visible radial glow.
+- Use deterministic motion and avoid Math.random().
+- Use periodic motion and inspect seamless loop continuity.
+- Generate still previews and inspect them before rendering final videos.
+- Verify outputs with ffprobe or an equivalent supported tool.
+- Reuse shared components for Gradient Blobs, Background Glow,
+  Plexus Dots, Plexus Lines, Particles, Grain, and Vignette.
+- Never report a render as successful without verifying its output.
+- Retry a failed prompt no more than twice before recording failure.
+- Never use paid APIs or automatic paid fallback without authorization.
+- Never push or commit code to GitHub.
+
+PROMPT WRITER RULES
+- Generate unique names, composition IDs, seeds, exact hex palettes,
+  moods, animation specifications, and relevant component filenames.
+- Prioritize Mesh Gradient Loops, followed by Plexus and Bokeh/Particles.
+- Also support distinct geometric patterns, abstract tech, waves and aurora.
+- Use 3840x2160 at 60fps and correct frame counts.
+- Include seamless periodic motion, a visible colored glow and sufficiently
+  bright elements.
+- Never use a pure-black background.
+- Do not include render flags inside creative prompts.
+- Avoid logos, brands, copyrighted works and unnecessary text.
+- Use distinct, visually valuable concepts rather than merely duplicating
+  the same design with tiny color changes.
+- Assign unique composition IDs and seeds.
+
+IMPORTANT PARSER COMPATIBILITY
+Inspect generate_videos.py and the actual prompt parser.
+If each non-empty line currently represents one job, write each complete
+numbered prompt on exactly one physical line.
+Alternatively, implement and test a reliable block-aware parser and
+status-tracking system before using multiline prompts.
+Ensure a single prompt never becomes multiple video jobs.
+
+QUALITY AND DELIVERY
+Record the actual filename, duration, resolution, FPS, codec, bitrate,
+pixel format, and validation result.
+Prepare a descriptive stock title and 25–30 accurate keywords per
+successful video.
+Do not guarantee Adobe Stock acceptance.
+
+GENERATIVE AI DISCLOSURE
+Do not automatically instruct the contributor to leave the
+"Created using generative AI tools" checkbox unchecked.
+Document that the contributor must determine the correct disclosure
+from the actual creation process and current Adobe Stock rules.
+Do not mislabel assets.
+
+After creating these documentation files, inspect the generator and
+identify any contradictions. Make only necessary, backed-up changes.
+Test the documentation against the actual project.
+Do not generate a large prompt batch or render a large batch yet.
+
+Report the new files, changes, validation results, and any limitations.</pre>
+          </div>
+        </article>
+
+        <!-- ========== PROMPT 3 ========== -->
+        <article class="prompt-card" id="prompt-3">
+          <div class="prompt-head">
+            <div class="step-badge s3">3</div>
+            <div class="ph-text">
+              <h3>Prompt 3 — Generate 100 Prompts</h3>
+              <div class="ph-sub">100 unique video prompts — palettes, moods aur motion ideas</div>
+            </div>
+            <button class="done-btn" type="button" data-done>Step complete mark karein</button>
+          </div>
+          <div class="explain">
+            <div class="ex-box ex-when">
+              <h4>Kab dein</h4>
+              <p>Jab Prompt 2 complete ho jaye aur generator ka prompt format verify ho gaya ho.</p>
+            </div>
+            <div class="ex-box ex-what">
+              <h4>Ye kya karega</h4>
+              <p><span class="mono">Prompts/Prompts.txt</span> mein exactly 100 naye, unique prompts add karega — upar wali taqseem ke mutabiq: 35 Mesh Gradient, 25 Plexus, 25 Particles/Bokeh, 15 Abstract. Har prompt ka apna naam, composition ID, seed, hex colors, mood aur motion hoga. <b>Is stage par sirf prompts baneinge — koi video render nahi hogi.</b></p>
+            </div>
+            <div class="ex-box ex-check">
+              <h4>Iske baad check karein</h4>
+              <p><span class="mono">Prompts/Prompts.txt</span> khol kar dekhein: 100 naye prompts add hue? Numbering pichhli entries ke baad se continue hai? Koi duplicate palette ya seed to nahi? Aur haan — abhi koi video render nahi honi chahiye.</p>
+            </div>
+          </div>
+          <div class="prompt-block">
+            <div class="prompt-bar">
+              <span class="pb-title">PROMPT 3 — ANTIGRAVITY MEIN PASTE KAREIN</span>
+              <span class="pb-note">Poora prompt, bilkul original</span>
+              <button class="copy-btn" type="button" data-copy="promptText3">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy Prompt</span>
+              </button>
+            </div>
+            <pre class="prompt" id="promptText3">Read and follow:
+docs/PROMPT_WRITER.md
+docs/PRODUCTION_AGENT.md
+docs/ADOBE_STOCK_QA.md
+
+TASK:
+Generate exactly 100 new, unique motion-background prompts and save
+them to Prompts/Prompts.txt.
+
+CATEGORY DISTRIBUTION:
+- 35 Mesh Gradient Loops
+- 25 Plexus / Connected Dots
+- 25 Floating Particles and Bokeh, using distinct substyles
+- 15 additional abstract, geometric, wave, line, aurora, or tech backgrounds
+
+REQUIREMENTS FOR EVERY PROMPT:
+- Short descriptive name and unique composition ID.
+- 3840x2160, 60fps.
+- Duration of 8, 10, or 12 seconds.
+- Correct frame count: 480, 600, or 720.
+- Distinct exact hex colors, dark base, and visible radial glow.
+- Mood, motion, element count, blur, and effects.
+- Deterministic periodic movement and a unique seed string.
+- Appropriate component filenames.
+- No render flags in the creative prompt.
+- No logos, text, brands, copyrighted works, or near-black frames.
+
+PALETTE DIVERSITY:
+Use visually distinct combinations across Sunset, Ocean, Corporate Blue,
+Teal-Orange, Pastel, Gold, Aurora, Emerald, Rose Gold, Cyberpunk,
+Ice Blue, Violet, Amber, and other suitable palettes.
+Do not repeat the same palette in this batch.
+
+FILE RULES:
+Inspect Prompts/Prompts.txt first.
+Preserve existing entries and continue numbering after the last entry.
+Append exactly 100 new prompts.
+Use the parser-compatible format documented in the project.
+If each physical line represents one job, put one complete prompt per line.
+Do not render videos yet.
+
+VALIDATE:
+- Exactly 100 new prompt records were added.
+- Numbering and composition IDs are unique.
+- Seeds and palette combinations are not duplicated.
+- Every duration and frame count is correct.
+- No prompt is empty or a placeholder.
+- The production parser recognizes exactly 100 new jobs.
+
+Save changes and report the number range and file path.
+Do not push or commit code.</pre>
+          </div>
+        </article>
+
+        <!-- ========== PROMPT 4 ========== -->
+        <article class="prompt-card" id="prompt-4">
+          <div class="prompt-head">
+            <div class="step-badge s4">4</div>
+            <div class="ph-text">
+              <h3>Prompt 4 — Validate Prompts</h3>
+              <div class="ph-sub">Batch se pehle prompts ki final checking</div>
+            </div>
+            <button class="done-btn" type="button" data-done>Step complete mark karein</button>
+          </div>
+          <div class="explain">
+            <div class="ex-box ex-when">
+              <h4>Kab dein</h4>
+              <p>Jab 100 prompts save ho jayein — batch start karne se pehle. Ye aakhri checking hai, isko skip mat karein.</p>
+            </div>
+            <div class="ex-box ex-what">
+              <h4>Ye kya karega</h4>
+              <p>Saare pending prompts ka 12-point audit karega: duplicates, unique IDs aur seeds, 60fps, sahi frame counts (480 / 600 / 720), hex colors, lifted base + glow, aur sab se barh kar parser test — ke har prompt exactly ek hi job bane. Sirf formatting ki ghaltiyan fix hongi; is stage par bhi <b>koi video render nahi hogi</b>.</p>
+            </div>
+            <div class="ex-box ex-check">
+              <h4>Iske baad check karein</h4>
+              <p>Agent confirm kare ke 100 prompts bilkul sahi hain aur parser unhein exactly 100 jobs hi samajhta hai — tab hi Prompt 5 dein. Agar kuch fix hua ho, to report mein uska zikr hona chahiye.</p>
+            </div>
+          </div>
+          <div class="prompt-block">
+            <div class="prompt-bar">
+              <span class="pb-title">PROMPT 4 — ANTIGRAVITY MEIN PASTE KAREIN</span>
+              <span class="pb-note">Poora prompt, bilkul original</span>
+              <button class="copy-btn" type="button" data-copy="promptText4">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy Prompt</span>
+              </button>
+            </div>
+            <pre class="prompt" id="promptText4">Read docs/PROMPT_WRITER.md, docs/PRODUCTION_AGENT.md,
+and docs/ADOBE_STOCK_QA.md.
+
+Audit all currently pending entries in Prompts/Prompts.txt.
+
+Do not render any videos.
+
+Check:
+1. Each physical record maps to exactly one generation job.
+2. There are no empty, duplicate, or malformed prompts.
+3. Composition IDs and seed strings are unique.
+4. Resolution is 3840x2160 and frame rate is 60fps.
+5. Duration is 8, 10, or 12 seconds.
+6. Frame counts are exactly 480, 600, or 720.
+7. Each palette uses explicit hex colors.
+8. Every background has a lifted dark base and a visible radial glow.
+9. Motion descriptions specify deterministic periodic paths.
+10. Component filenames and categories are sensible.
+11. Render flags have not been accidentally embedded as creative content.
+12. The parser can read all 100 prompts without splitting a prompt into
+    multiple jobs or corrupting completion status.
+
+Correct objective formatting errors safely and back up changed files.
+Do not erase or silently replace legitimate existing prompts.
+
+Report the total pending job count and any corrected problems.
+Do not start generation or rendering yet.</pre>
+          </div>
+        </article>
+
+        <!-- ========== PROMPT 5 ========== -->
+        <article class="prompt-card" id="prompt-5">
+          <div class="prompt-head">
+            <div class="step-badge s5">5</div>
+            <div class="ph-text">
+              <h3>Prompt 5 — Test 3 Videos</h3>
+              <div class="ph-sub">Sirf pehli 3 videos — poori pipeline ka test</div>
+            </div>
+            <button class="done-btn" type="button" data-done>Step complete mark karein</button>
+          </div>
+          <div class="explain">
+            <div class="ex-box ex-when">
+              <h4>Kab dein</h4>
+              <p>Prompt 4 ki validation pass ho jaye, tab. Ye test stage hai — isko chhor kar seedha batch par mat jayein.</p>
+            </div>
+            <div class="ex-box ex-what">
+              <h4>Ye kya karega</h4>
+              <p>Sirf pehli 3 pending prompts ki videos render karega, woh bhi sirf local LLM se (<span class="mono">--limit 3 --llm local</span>). Har video ke liye: TSX generate, composition register, still preview check, render, aur phir asli metadata verify. Maqsad ye hai ke agar pipeline mein koi masla hai, to woh 97 videos zaya honay se pehle pakra jaye.</p>
+            </div>
+            <div class="ex-box ex-check">
+              <h4>Iske baad check karein</h4>
+              <p>Teenon MP4s play karke dekhein — colors nazar aa rahe hain? Motion smooth hai? Video black ya frozen to nahi? Report mein har video ka path, dimensions, FPS, bitrate aur file size confirm karein.</p>
+            </div>
+          </div>
+          <div class="prompt-block">
+            <div class="prompt-bar">
+              <span class="pb-title">PROMPT 5 — ANTIGRAVITY MEIN PASTE KAREIN</span>
+              <span class="pb-note">Poora prompt, bilkul original</span>
+              <button class="copy-btn" type="button" data-copy="promptText5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy Prompt</span>
+              </button>
+            </div>
+            <pre class="prompt" id="promptText5">Read:
+docs/PRODUCTION_AGENT.md
+docs/PROMPT_WRITER.md
+docs/ADOBE_STOCK_QA.md
+
+Process only the first 3 pending prompt jobs.
+
+Use the existing local LLM only:
+python generate_videos.py --limit 3 --llm local
+
+Before execution, confirm that the generator supports these options and
+that its render settings are correctly configured for 60fps, 3840x2160,
+valid durationInFrames, H.264, target bitrate 40M, yuv420p, bt709,
+muted rendering, and the appropriate OpenGL backend.
+
+Do not use an automatic paid API fallback.
+
+For each of the 3 videos:
+1. Read the complete prompt.
+2. Generate and validate the TSX.
+3. Register the composition.
+4. Check the still preview.
+5. Fix visible black, empty, or broken areas.
+6. Render the MP4.
+7. Verify its real metadata and playability.
+8. Record DONE or FAILED status without corrupting other prompts.
+
+If the local model is unavailable, stop and report the problem.
+Do not silently switch providers.
+Do not process the remaining prompts.
+Do not push code to GitHub.
+
+Report each video's file path, actual dimensions, duration, FPS, bitrate,
+file size, and validation result.</pre>
+          </div>
+        </article>
+
+        <!-- ========== PROMPT 6 ========== -->
+        <article class="prompt-card" id="prompt-6">
+          <div class="prompt-head">
+            <div class="step-badge s6">6</div>
+            <div class="ph-text">
+              <h3>Prompt 6 — Batch Rendering</h3>
+              <div class="ph-sub">Baqi saari prompts ki videos, ek ke baad ek</div>
+            </div>
+            <button class="done-btn" type="button" data-done>Step complete mark karein</button>
+          </div>
+          <div class="explain">
+            <div class="ex-box ex-when">
+              <h4>Kab dein</h4>
+              <p>Jab pehli 3 test videos ki visual quality aur technical validation dono acceptable hon.</p>
+            </div>
+            <div class="ex-box ex-what">
+              <h4>Ye kya karega</h4>
+              <p>Baqi saare pending prompts ko ek ek karke process karega — jo videos ban chuki hain woh dobara render nahi hongi. Har video pehle preview, phir render, phir verify hogi. Koi job fail ho to zyada se zyada 2 dafa retry, phir FAILED mark karke aage barh jayega. Paid API kabhi use nahi hoga, aur agar ek hi masla baar baar aaye to batch rok kar pehle wajah diagnose hogi.</p>
+            </div>
+            <div class="ex-box ex-check">
+              <h4>Iske baad check karein</h4>
+              <p>Videos <span class="mono">Output Folder</span> mein save hongi. End report mein successful / failed / remaining ki count aur total size dekhein. <b>Note:</b> bara batch waqt aur disk space leta hai — shuru karne se pehle dono ka andaza kar lein.</p>
+            </div>
+          </div>
+          <div class="prompt-block">
+            <div class="prompt-bar">
+              <span class="pb-title">PROMPT 6 — ANTIGRAVITY MEIN PASTE KAREIN</span>
+              <span class="pb-note">Poora prompt, bilkul original</span>
+              <button class="copy-btn" type="button" data-copy="promptText6">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy Prompt</span>
+              </button>
+            </div>
+            <pre class="prompt" id="promptText6">Read:
+docs/PRODUCTION_AGENT.md
+docs/PROMPT_WRITER.md
+docs/ADOBE_STOCK_QA.md
+
+The first 3 test videos have been reviewed.
+Now process all remaining pending prompts sequentially.
+
+Use:
+python generate_videos.py --llm local
+
+Before execution, verify the installed script's supported options and
+confirm that completed prompts are skipped rather than rendered again.
+
+BATCH RULES:
+- Continue only with pending jobs.
+- Never use paid APIs or automatic paid fallback.
+- Do not delete completed output files.
+- Do not overwrite a completed output without backing it up.
+- Generate the TSX, register the composition, preview, render and verify
+  each video before marking it successful.
+- Use 3840x2160, 60fps, the correct duration, H.264, target bitrate 40M,
+  yuv420p, bt709, muted rendering, and the supported rendering backend.
+- Reuse working shared components.
+- Retry failed jobs no more than twice, then mark them FAILED and continue.
+- Keep logs showing each job's status.
+- Stop and diagnose repeated systemic failures instead of wasting time
+  processing the same broken pipeline.
+- Do not push or commit code to GitHub.
+
+At the end, report successful, failed, and remaining jobs, total output
+size, actual video paths, and any recurring issues.</pre>
+          </div>
+        </article>
+
+        <!-- ========== PROMPT 7 ========== -->
+        <article class="prompt-card" id="prompt-7">
+          <div class="prompt-head">
+            <div class="step-badge s7">7</div>
+            <div class="ph-text">
+              <h3>Prompt 7 — Final QA &amp; Metadata</h3>
+              <div class="ph-sub">Technical report, titles, keywords aur stock checks</div>
+            </div>
+            <button class="done-btn" type="button" data-done>Step complete mark karein</button>
+          </div>
+          <div class="explain">
+            <div class="ex-box ex-when">
+              <h4>Kab dein</h4>
+              <p>Jab batch render complete ho jaye. Ye workflow ka aakhri step hai.</p>
+            </div>
+            <div class="ex-box ex-what">
+              <h4>Ye kya karega</h4>
+              <p>Har MP4 ki ffprobe se asli technical validation karega — resolution, FPS, duration, codec, bitrate, pixel format, koi audio to nahi, aur loop ke kinare par jump to nahi. Phir visual review, aur har successful video ke liye ek natural Adobe Stock title, 25–30 relevant keywords aur concept ki description. Aakhir mein poori table wali final report save ho jayegi.</p>
+            </div>
+            <div class="ex-box ex-check">
+              <h4>Iske baad check karein</h4>
+              <p>Final table dekhein — koi video FAIL to nahi, aur jo changes hue woh likhe hain ya nahi. Upload se pehle neeche wala <b>Adobe Stock note</b> zaroor parhein — disclosure ka faisla wahin samjhaya gaya hai.</p>
+            </div>
+          </div>
+          <div class="prompt-block">
+            <div class="prompt-bar">
+              <span class="pb-title">PROMPT 7 — ANTIGRAVITY MEIN PASTE KAREIN</span>
+              <span class="pb-note">Poora prompt, bilkul original</span>
+              <button class="copy-btn" type="button" data-copy="promptText7">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy Prompt</span>
+              </button>
+            </div>
+            <pre class="prompt" id="promptText7">Read docs/ADOBE_STOCK_QA.md and inspect every completed MP4 in Output Folder.
+
+Generate the final production report.
+
+TECHNICAL VALIDATION:
+Use ffprobe or another supported media inspector to verify actual:
+- Resolution: 3840x2160
+- Frame rate: 60fps
+- Duration: at least 5 seconds and matching the selected prompt
+- H.264 codec
+- Pixel format: yuv420p
+- BT.709 metadata where supported
+- No audio stream
+- Measured bitrate and file size
+- File integrity and playback
+- Loop-boundary continuity
+
+Do not claim a video passes if any required check failed.
+Do not automatically re-encode files simply to inflate size.
+Do not run boost_bitrate.py across all outputs without inspecting the
+need and getting authorization.
+
+VISUAL REVIEW:
+Identify black or empty frames, visible loop jumps, broken animation,
+unintended artifacts, and excessively similar variations wherever
+practical.
+
+METADATA:
+For every successful video, create:
+- One natural, descriptive Adobe Stock title.
+- 25–30 relevant, accurate, comma-separated keywords.
+- A short description of the visual concept.
+- Any technical corrections made.
+
+Do not include trademarks, copyrighted names, unsupported claims, or
+irrelevant keyword stuffing.
+
+ADOBE STOCK COMPLIANCE:
+Do not guarantee acceptance.
+Do not automatically leave the generative-AI disclosure unchecked.
+Report whether the visual asset was created using an LLM, a procedural
+template, or another tool, and flag the disclosure decision for the
+contributor to make according to the current Adobe Stock rules and the
+actual creation process.
+Do not submit multiple near-identical variations without a distinct
+commercial purpose.
+
+FINAL TABLE:
+Number | Title | Duration | FPS | Bitrate | File Size | Status | Changes
+
+Save the report and metadata to a sensible project-local file.
+Do not modify successful videos, upload anything to Adobe Stock,
+or push code to GitHub.</pre>
+          </div>
+        </article>
+      </section>
+
+      <!-- ================= ADOBE STOCK NOTE ================= -->
+      <section class="block" id="adobe-note">
+        <div class="adobe-note">
+          <h2>Ek important Adobe Stock note — upload se pehle zaroor parhein</h2>
+          <p><b>Generative AI disclosure:</b> Original document mein likha tha ke "Created using generative AI tools" wala checkbox hamesha unchecked rahe — is instruction ko blindly follow <b>na</b> karein. Adobe ki current guidance ke mutabiq, generative-AI tools se banaye gaye content ko submission ke waqt sahi tarah label karna zaroori hai. Is workflow mein local LLM code generate kar sakta hai, is liye disclosure ka faisla hamesha <b>actual creation process</b> aur <b>current Adobe Stock rules</b> dekh kar karein.</p>
+          <p><b>Milti-julti videos ka masla:</b> Adobe repetitive, near-identical submissions ko spam samajh sakta hai — uski generative-AI FAQ similar assets ki sirf <b>teen iterations</b> tak submit karne ki guideline deti hai. Is liye 100 prompts generate karna aur 100 bohat milti-julti videos upload karna ek hi baat nahi hai. Har upload honay wali asset mein meaningful visual aur commercial difference hona chahiye.</p>
+        </div>
+      </section>
+
+      <!-- ================= GOOGLE DOC SECTION ================= -->
+      <section class="block" id="doc-guide">
+        <div class="sec-head">
+          <h2>Guide Document ki gehri baatein</h2>
+          <p>Ye woh technical tafseel hai jo Google Doc <b>"Adobe X Remotion Guide Document"</b> mein hai — 7 tabs: Claude Command, Prompt Template, Remotion Topics, Sub Topics Idea, Python Script for 4K, Topic to Video Prompts, aur Antigravity Commands. Prompts upar wale hi use honge; ye section unke peeche ki wajah samjhata hai.</p>
+        </div>
+
+        <div class="start-card flush">
+          <div class="start-ic blue" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h4"/></svg>
+          </div>
+          <div class="sc-text">
+            <h3>Asal document khol kar bhi dekh lein</h3>
+            <p>Is section ki saari tafseel asal Google Doc <b>"Adobe X Remotion Guide Document"</b> se aayi hai. Agar aap poora source guide khud parhna chahein, to document ke saare <b>7 tabs</b> — Claude Command, Prompt Template, Remotion Topics, Sub Topics Idea, Python Script for 4K, Topic to Video Prompts, Antigravity Commands — yahan se khol kar dekh sakte hain.</p>
+          </div>
+          <a class="btn-link ghost" href="https://docs.google.com/document/d/1mloJV-MwtfxzI2z8lOYiLKIbhvVtvkqJhLLP3JuHxRQ/edit?pli=1&tab=t.vg0uzbn0iccd" target="_blank" rel="noopener">Original Document kholein
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </a>
+        </div>
+
+        <h3 style="font-size:17px;margin-bottom:12px">3 Critical Lessons — jo sab se zyada kaam aayengi</h3>
+        <div class="lesson-grid">
+          <div class="lesson">
+            <div class="lnum">LESSON 1</div>
+            <h3>Duration ka hisaab galat = video reject</h3>
+            <p>Frames = seconds × fps. <b>8s = 480, 10s = 600, 12s = 720 frames</b>, aur kam se kam 300 frames (5 second) lazmi hain. Agar kisi prompt ki duration galat ya bohat chhoti ho, to use valid duration (default 10s / 600) par fix karke report mein bataya jata hai.</p>
+          </div>
+          <div class="lesson">
+            <div class="lnum">LESSON 2</div>
+            <h3>Bitrate: 40M, CRF kabhi nahi</h3>
+            <p>Hamesha <b>--video-bitrate=40M</b> use hota hai, target taqreeban 30–40 Mbps. <b>--crf</b> dark ya simple scenes par sirf ~2 Mbps de deta hai aur Adobe "quality too low" ka flag laga deta hai. CRF aur bitrate ko kabhi combine na karein.</p>
+          </div>
+          <div class="lesson">
+            <div class="lnum">LESSON 3</div>
+            <h3>Black wallpaper kabhi nahi bikti</h3>
+            <p>Pure ya near-black background wali video ka thumbnail hi nahi banta. Is liye base hamesha palette ke hue mein <b>thoda sa lifted dark</b> (taqreeban 12–15% lightness) hota hai, plus usi rang ki halki radial <b>BackgroundGlow</b> — frame mein hamesha ek wazeh roshni wala hissa aur kaafi bright elements nazar aayein.</p>
+          </div>
+        </div>
+
+        <div class="rules-grid">
+          <div class="panel">
+            <h3>Remotion ke ghair-mutabadil rules</h3>
+            <ul class="rule-list">
+              <li><b>Seamless loop:</b> saari motion <span class="mono">useCurrentFrame()</span> se sin/cos par — frame 0 aur aakhri frame bilkul barabar. Multiple cycles ke liye 2π ke integer multiples; particles modulo se seamlessly wrap hote hain.</li>
+              <li><b>Math.random() kabhi nahi:</b> Remotion ka seeded <span class="mono">random("seed")</span> use hota hai, har prompt ka apna unique seed. Deterministic matlab koi flicker nahi.</li>
+              <li><b>Sab @remotion/* packages ki version bilkul ek jaisi</b> honi chahiye.</li>
+              <li>Backgrounds ke liye fonts / <span class="mono">loadFont()</span> blocking avoid karein.</li>
+              <li>Grain sirf halka sa; video clean, in-focus — na over-sharpened, na over-contrasted.</li>
+              <li>Koi logo, brand, trademarked font, copyrighted material ya text nahi.</li>
+              <li>Is machine class par NVENC nahi hai — encoding CPU (libx264) par hoti hai, aur ye bilkul theek hai.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Ek achhe prompt ke andar kya hota hai?</h3>
+            <p style="margin:8px 0 0;font-size:14.5px;line-height:1.65">Prompt mein <b>sirf creative spec</b> hoti hai: naam, composition ID, resolution / fps / duration + frames, seamless loop ki statement, type, motion, seeded random, exact hex colors + lifted base + radial glow, effects, mood, aur files ki list. <b>Render flags prompt ke andar kabhi nahi hote</b> — woh hamesha <span class="mono">remotion.config.ts</span> mein rehte hain (OpenGL 'angle', concurrency 8, codec h264, bitrate 40M, yuv420p, bt709, muted).</p>
+            <p style="margin:10px 0 0;font-size:14.5px;line-height:1.65"><b>Save karne se pehle self-check:</b> frames = seconds × 60 aur ≥ 300 · loop statement sahi · seed unique · hex colors exact · lifted base + glow maujood · bright elements kaafi · Files line mein BackgroundGlow.tsx shamil · koi render flag, logo ya text nahi.</p>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <h3 style="font-size:16px;margin:18px 0 8px">Project ki file structure</h3>
+            <pre class="tree">Root.tsx            <span class="c">← har prompt ki ek Composition</span>
+SunsetMesh.tsx      <span class="c">← category ki main scene file</span>
+components/
+  BackgroundGlow.tsx  <span class="c">← frame kabhi flat black nahi</span>
+  GradientBlobs.tsx
+  PlexusDots.tsx
+  PlexusLines.tsx
+  Particles.tsx
+  GrainOverlay.tsx    <span class="c">← sirf halka grain</span>
+  Vignette.tsx        <span class="c">← optional, halka</span>
+Prompts/Prompts.txt   <span class="c">← saare numbered prompts</span>
+Output Folder/        <span class="c">← tayyar MP4 videos</span></pre>
+            <p style="color:var(--muted);font-size:13.5px;margin-top:8px">Ek hi category ke prompts shared components dobara use karte hain — sirf colors, counts, sizes, speeds, seed aur duration badalte hain. Har prompt ki apni composition ID (jaise <span class="mono">SunsetMesh</span>, <span class="mono">CorporateBluePlexus</span>) aur apna seed hota hai.</p>
+          </div>
+          <div>
+            <h3 style="font-size:16px;margin:18px 0 8px">Har video ka per-prompt workflow</h3>
+            <div class="flow">
+              <div class="flow-step"><b>STEP A</b>Prompts.txt se agla numbered prompt parhein</div>
+              <div class="flow-step"><b>STEP B</b>Components banayein/reuse karein, Root.tsx mein composition register karein</div>
+              <div class="flow-step"><b>STEP C</b>Pehle still preview (frame 90, --gl=angle) — black/empty ho to fix karein</div>
+              <div class="flow-step"><b>STEP D</b>Final MP4 Output Folder mein render karein</div>
+              <div class="flow-step"><b>STEP E</b>ffprobe se verify: 4K, 60fps, ≥5s, ~30–40 Mbps, yuv420p/bt709, no audio</div>
+              <div class="flow-step"><b>STEP F</b>Agla prompt — 2 fail attempts ke baad skip karke report karein</div>
+            </div>
+            <div class="warn-card">
+              <h3>boost_bitrate.py — ek optional tool (hoshiyari se)</h3>
+              <p>Doc mein ek Python script hai jo kisi folder ki saari MP4s ko high bitrate (default 45M, 40M–50M theek hai) par re-encode karke <span class="mono">adobe_ready</span> subfolder mein daal deti hai — originals mehfooz rehte hain aur 25 MB se bari files skip ho jati hain. Ye Adobe ke "quality too low" flag ka ilaaj hai, <b>lekin Prompt 7 ki hidayat wazeh hai: pehle zaroorat inspect karein aur authorization lein — sirf file size barhane ke liye re-encode mat karein, aur bina poochhe saari outputs par mat chalayein.</b></p>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="font-size:17px;margin:24px 0 4px">Adobe Stock par Remotion se kya bikta hai?</h3>
+        <p style="color:var(--muted);margin:0 0 12px;max-width:48em">Doc ke "Remotion Topics" tab ke mutabiq ye 6 topics sab se behtar hain. Hamara workflow pehle wale par focused hai, lekin aage ke liye ye list kaam ki hai.</p>
+        <div class="topics-grid">
+          <div class="topic"><div class="tn">TOPIC 1</div><h3>Motion Backgrounds</h3><p>Best sellers — gradient loops, floating shapes, particles. Seamless loop, 4K, 10–20 second.</p></div>
+          <div class="topic"><div class="tn">TOPIC 2</div><h3>Animated Infographic Templates</h3><p>Bar / pie / line charts, percentage counters — business style.</p></div>
+          <div class="topic"><div class="tn">TOPIC 3</div><h3>Lower Thirds &amp; Title Cards</h3><p>News, corporate aur YouTube ke liye name/title packs.</p></div>
+          <div class="topic"><div class="tn">TOPIC 4</div><h3>Text Animations / Kinetic Typography</h3><p>Quote reveals aur CTA text animations.</p></div>
+          <div class="topic"><div class="tn">TOPIC 5</div><h3>Transitions Pack</h3><p>Wipe, slide, zoom, glitch transitions — alpha channel ke saath.</p></div>
+          <div class="topic"><div class="tn">TOPIC 6</div><h3>Social Media Templates</h3><p>Reels / Story (9:16) formats, intros aur outros.</p></div>
+        </div>
+
+        <div class="rules-grid">
+          <div class="panel">
+            <h3>Remotion perfect banata hai</h3>
+            <p class="sub" style="margin-top:2px">Sab code aur math hai — koi external asset nahi, perfect loops, crisp 4K.</p>
+            <ul class="rule-list">
+              <li><b>Gradient animations</b> — mesh, aurora, color transitions</li>
+              <li><b>Geometric / shapes</b> — floating shapes, rotating patterns, kaleidoscope, grids, low-poly</li>
+              <li><b>Particles</b> — dust, bokeh, bubbles, snow, confetti, starfield, fireflies, plexus connected dots (corporate favorite)</li>
+              <li><b>Waves / lines</b> — sine waves, waveform bars, ribbon / silk, contour lines</li>
+              <li><b>Abstract / tech</b> — digital rain, hexagon grids, circuits, glitch / scanline, neon</li>
+              <li><b>Loops / patterns</b> — seamless tiles, infinite scroll, spirals</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Shuru mein in se bachein</h3>
+            <p class="sub" style="margin-top:2px">Ye cheezein Remotion ke bas ki nahi — inke liye stock footage ya AI video behtar hai.</p>
+            <ul class="rule-list avoid">
+              <li><b>Realistic smoke / fire / water</b> — fluid simulation chahiye, bohat heavy</li>
+              <li><b>Realistic 3D scenes</b> — Three.js slow render karta hai</li>
+              <li><b>Real-footage looks</b> — badal, samandar waghera asal video hain, code nahi</li>
+              <li><b>Complex physics</b> — kapra (cloth) ya liquid simulation engine maangta hai</li>
+            </ul>
+            <h3 style="margin-top:18px">Doc ki 2 ready Antigravity commands</h3>
+            <p style="margin:6px 0 0;font-size:14.5px;line-height:1.65">Doc ke aakhri tab mein do tayyar commands mojood hain: <b>(1) Run prompts</b> — Prompts.txt mein prompts add honay ke baad saari videos bilkul specs ke mutabiq render karne ke liye (aur code GitHub par kabhi push nahi); <b>(2) Bitrate check</b> — confirm karna ke <span class="mono">remotion.config.ts</span> aur render script dono mein 40M set hai, phir ek particle video render karke ffprobe se dekhna ke bitrate ~40 Mbps hai, ~8 Mbps nahi. Upar wale 7 prompts isi kaam ka mukammal, step-by-step tareeqa hain.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= FAQ: COMMON ERRORS ================= -->
+      <section class="block faq" id="faq">
+        <div class="sec-head">
+          <h2>Aam errors aur unka hal — Troubleshooting</h2>
+          <p>Kaam ke dauran ye maslay sab se zyada aate hain. Agar aapko in mein se koi error nazar aaye, to ghabrayein nahi — pehle yahan uska hal parhein, phir wahi step dobara check karein jis ki taraf har jawab ishara karta hai.</p>
+        </div>
+
+        <details>
+          <summary><span class="q-ic">?</span>Video bilkul black aaye, ya thumbnail hi na bane<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq-body">
+            <p>Sab se pehle ye teen cheezein check karein: <b>(1)</b> render mein <b>--gl=angle</b> use hua hai ya nahi — iske baghair heavy blur wali scenes black render ho jati hain. <b>(2)</b> Background <b>pure black to nahi</b> — base hamesha lifted dark (taqreeban 12–15% lightness) hona chahiye, usi rang ki radial glow ke saath. <b>(3)</b> Final render se pehle <b>still preview</b> zaroor dekhein — preview black ho to pehle wahi fix karein, poori video render karne mein waqt zaya na karein.</p>
+            <span class="step-ref">Ye check kahan hai: Prompt 1 (configuration + sample) · Prompt 5 (still preview)</span>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="q-ic">?</span>Adobe kahe: "video quality may be too low"<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq-body">
+            <p>Iska matlab aksar ye hota hai ke bitrate bohat kam reh gaya. Wajah taqreeban hamesha <b>CRF</b> hoti hai — dark scenes par CRF sirf ~2 Mbps de deta hai. Hal simple hai: <b>CRF bilkul use na karein</b>, hamesha <b>--video-bitrate=40M</b> rakhein, aur <b>ffprobe</b> se verify karein ke asal bitrate taqreeban <b>30–40 Mbps</b> hai. Agar phir bhi koi purani file low-bitrate nikal aaye, to <b>boost_bitrate.py</b> ka option mojood hai — lekin sirf tab, jab waqai zaroorat ho aur aapne ijazat di ho; sirf file size barhane ke liye re-encode na karein.</p>
+            <span class="step-ref">Ye check kahan hai: Prompt 1 (render settings) · Prompt 7 (bitrate verification)</span>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="q-ic">?</span>Video sirf 4 second ki ban jaye, ya Adobe reject kar de<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq-body">
+            <p>Ye duration ka hisaab galat honay ki nishani hai. Formula yaad rakhein: <b>frames = seconds × 60</b>. Sirf ye teen durations sahi hain — <b>8s = 480, 10s = 600, 12s = 720 frames</b> — aur kam se kam <b>300 frames (5 second)</b> lazmi hain. <b>240 frames wali 4-second video pakki reject hai.</b> Agar kisi prompt mein frames kam likhe hon, to use valid duration (default 10s / 600 frames) par fix karein.</p>
+            <span class="step-ref">Ye check kahan hai: Prompt 3 (frame counts) · Prompt 4 (validation)</span>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="q-ic">?</span>Loop ke aakhir mein jump / jhatka nazar aaye<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq-body">
+            <p>Seamless loop ka matlab hai: <b>frame 0 aur aakhri frame bilkul ek jaise</b> hon. Ye tabhi hota hai jab saari motion <b>sin/cos</b> par chale — periodic motion khud ba khud apni shuru wali position par wapas aa jati hai. Agar kahin <b>linear (seedhi) motion</b> use ho gayi ho, to element aakhir mein apni jagah se aage nikal jata hai aur loop wapas shuru hote hi jump marta hai. Us hisse ki motion sin/cos mein badlein aur dobara preview dekhein.</p>
+            <span class="step-ref">Ye check kahan hai: Prompt 2 (production rules) · Prompt 7 (loop-boundary check)</span>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="q-ic">?</span>Video flicker kare — elements hilte-jhulte nazar aayein<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq-body">
+            <p>Flicker ki sab se aam wajah <b>Math.random()</b> hai — ye har frame par naye random numbers banata hai, is liye dots aur particles har frame idhar udhar uchhalte hain. Qaaida wazeh hai: <b>Math.random() bilkul nahi</b>. Uski jagah Remotion ka seeded <b>random("seed")</b> use karein — ek hi seed har frame par ek hi result deta hai, aur har prompt ka apna unique seed hota hai. Code mein Math.random() jahan bhi mile, use seeded random se badal dein.</p>
+            <span class="step-ref">Ye check kahan hai: Prompt 2 (prompt writer rules) · Prompt 4 (seed checking)</span>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="q-ic">?</span>Ek prompt se kai videos ban jayein<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq-body">
+            <p>Ye parser ka masla hai: generator <span class="mono">Prompts/Prompts.txt</span> ki har line ko ek job samajhta hai. Agar ek mukammal prompt ghalti se kai lines mein toot gaya, to wo kai alag videos ban jayega. Qaaida yaad rakhein: <b>ek complete prompt = ek hi job</b> — ya to har prompt bilkul ek physical line par ho, ya block-aware parser pehle test ho chuka ho. Agar ye masla ho jaye, to batch rok kar pehle file theek karein aur validation dobara chalayein.</p>
+            <span class="step-ref">Ye check kahan hai: Prompt 2 (parser compatibility) · Prompt 4 (final validation)</span>
+          </div>
+        </details>
+
+        <details>
+          <summary><span class="q-ic">?</span>Local AI / model na mile, agent paid API ki taraf jaye<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="faq-body">
+            <p>Agar local model available na ho, to <b>ruk jayein</b> — agent ko khud se <b>koi paid API use nahi karni</b>, na hi chup chaap provider badalna hai. Sahi tareeqa ye hai ke agent masla saaf taur par report kare ke kya missing hai. Agar test ke liye procedural template use ho, to use hamesha waisa hi label karein — <b>procedural cheez ko LLM-generated kabhi na kahen</b>. Bara model download karne se pehle bhi aapki ijazat lazmi hai.</p>
+            <span class="step-ref">Ye check kahan hai: Prompt 1 (Local AI section) · Prompt 5 (model na mile to stop &amp; report)</span>
+          </div>
+        </details>
+      </section>
+
+      <!-- ================= WHATSAPP CHANNELS ================= -->
+      <section class="block" id="whatsapp">
+        <div class="sec-head">
+          <h2>WhatsApp channels — join kar lein</h2>
+          <p>Stock content, naye tools aur updates ke liye ye dono WhatsApp channels join kar lein. Button dabayein, channel khul jayega — wahan se <b>Follow</b> kar lein.</p>
+        </div>
+        <div class="join-grid">
+          <div class="join-card">
+            <div class="join-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            </div>
+            <div class="join-text">
+              <h3>Ali Mr Nobody</h3>
+              <p>Isi <b>Adobe-Stock-X-Remotion</b> repository ke creator ka WhatsApp channel — stock video tools aur unke updates ke liye.</p>
+              <a class="btn-link wa" href="https://whatsapp.com/channel/0029VbAro4f90x2mKW2ClN06" target="_blank" rel="noopener">Channel join karein
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="join-card">
+            <div class="join-ic" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            </div>
+            <div class="join-text">
+              <h3>Rahman Pasha</h3>
+              <p>Is guide ke author ka WhatsApp channel — nayi guides, stock research aur content tools ki updates ke liye.</p>
+              <a class="btn-link wa" href="https://whatsapp.com/channel/0029Vb7ZmA83mFYFj1grQB0O" target="_blank" rel="noopener">Channel join karein
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div class="f-line">
+          <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:16px;color:var(--ink);margin-bottom:8px">By Rahman Pasha</div>
+          Order hamesha yahi: Prompt 1 → 2 → 3 → 4 → 5 → 6 → 7 · Har step ka result check kiye baghair aage na barhein<br />
+          Repository: alimrnobody/Adobe-Stock-X-Remotion · Guide Document: "Adobe X Remotion Guide Document"
+        </div>
+      </footer>
+
+    </div>
+
+    <script>
+      (function () {
+        // ---- Copy buttons: copy the verbatim prompt text ----
+        function setCopied(btn) {
+          var label = btn.querySelector('span');
+          var original = label.textContent;
+          btn.classList.add('copied');
+          label.textContent = 'Copied ✓';
+          setTimeout(function () {
+            btn.classList.remove('copied');
+            label.textContent = original;
+          }, 2000);
+        }
+        function fallbackCopy(text) {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          var ok = false;
+          try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+          document.body.removeChild(ta);
+          return ok;
+        }
+        document.querySelectorAll('[data-copy]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var pre = document.getElementById(btn.getAttribute('data-copy'));
+            if (!pre) return;
+            var text = pre.textContent.replace(/^\n+/, '').replace(/\s+$/, '');
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text).then(function () {
+                setCopied(btn);
+              }, function () {
+                if (fallbackCopy(text)) setCopied(btn);
+              });
+            } else if (fallbackCopy(text)) {
+              setCopied(btn);
+            }
+          });
+        });
+
+        // ---- Step progress (in-memory only) ----
+        var doneBtns = document.querySelectorAll('[data-done]');
+        var fill = document.getElementById('progressFill');
+        var count = document.getElementById('progressCount');
+        function updateProgress() {
+          var done = document.querySelectorAll('[data-done].is-done').length;
+          fill.style.width = (done / doneBtns.length * 100) + '%';
+          count.textContent = done + ' / ' + doneBtns.length + ' steps';
+        }
+        doneBtns.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var isDone = btn.classList.toggle('is-done');
+            btn.textContent = isDone ? '✓ Step complete' : 'Step complete mark karein';
+            updateProgress();
+          });
+        });
+        updateProgress();
+      })();
+    </script>
+  </body>
+</html>
